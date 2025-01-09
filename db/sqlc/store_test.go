@@ -142,13 +142,13 @@ func TestTransferDeadlock(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-	updateAccount1, err := testQueries.GetAccount(context.Background(), account1.ID)
+	updatedAccount1, err := testQueries.GetAccount(context.Background(), account1.ID)
 	require.NoError(t, err)
 
-	updateAccount2, err := testQueries.GetAccount(context.Background(), account2.ID)
+	updatedAccount2, err := testQueries.GetAccount(context.Background(), account2.ID)
 	require.NoError(t, err)
 
-	fmt.Println(">> after:", updateAccount1.Balance, updateAccount2.Balance)
-	require.Equal(t, account1.Balance - int64(n) * amount, updateAccount1.Balance)
-	require.Equal(t, account2.Balance + int64(n) * amount, updateAccount2.Balance)
+	fmt.Println(">> after:", updatedAccount1.Balance, updatedAccount2.Balance)
+	require.Equal(t, account1.Balance, updatedAccount1.Balance)
+	require.Equal(t, account2.Balance, updatedAccount2.Balance)
 }
