@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -47,7 +48,6 @@ type TransferTxResult struct {
 	ToEntry     Entry    `json:"to_entry"`
 }
 
-
 func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferTxResult, error) {
 	var result TransferTxResult
 
@@ -63,12 +63,12 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 			return err
 		}
 
-		result.FromAccount, err = q.GetAccountForUpdate(ctx, arg.FromAccountID)
+		result.FromAccount, err = q.GetAccount(ctx, arg.FromAccountID)
 		if err != nil {
 			return err
 		}
 
-		result.ToAccount, err = q.GetAccountForUpdate(ctx, arg.ToAccountID)
+		result.ToAccount, err = q.GetAccount(ctx, arg.ToAccountID)
 		if err != nil {
 			return err
 		}
@@ -84,6 +84,22 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 		result.ToEntry, err = q.CreateEntry(ctx, CreateEntryParams{
 			AccountID: arg.ToAccountID,
 			Amount:    arg.Amount,
+		})
+		if err != nil {
+			return err
+		}
+
+		result.FromAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
+			ID:	 arg.FromAccountID,
+			Amount: -arg.Amount,
+		})
+		if err != nil {
+			return err
+		}
+
+		result.ToAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
+			ID:	 arg.ToAccountID,
+			Amount: arg.Amount,
 		})
 		if err != nil {
 			return err
