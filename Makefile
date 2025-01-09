@@ -6,10 +6,10 @@ postgres:
 	# docker exec -it postgres17 createdb --username=postgres --owner=postgres go_project_2
 
 migrateup:
-	migrate -path $(pwd)/db/migration -database "postgresql://postgres:postgres@localhost:5432/go_project_2?sslmode=disable" -verbose up
+	migrate -path db/migrations -database "postgresql://postgres:postgres@localhost:5432/go_project_2?sslmode=disable" -verbose up
 
 migratedown:
-	migrate -path $(pwd)/db/migration -database "postgresql://postgres:postgres@localhost:5432/go_project_2?sslmode=disable" -verbose down
+	migrate -path db/migrations -database "postgresql://postgres:postgres@localhost:5432/go_project_2?sslmode=disable" -verbose down
 
 dropdb:
 	docker exec -it postgres17 dropdb go_project_2
