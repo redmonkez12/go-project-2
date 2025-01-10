@@ -51,7 +51,7 @@ func (server *Server) getAccount(ctx *gin.Context) {
 	account, err := server.store.GetAccount(ctx, req.ID)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			ctx.JSON(http.StatusInternalServerError, errorResponse(err))
+			ctx.JSON(http.StatusNotFound, errorResponse(err))
 			return
 		}
 

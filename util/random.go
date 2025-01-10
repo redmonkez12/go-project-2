@@ -10,8 +10,8 @@ const alphabet = "abcdefghijklmnopqrstuvwxyz"
 
 var seededRand = rand.New(rand.NewSource(time.Now().UnixNano()))
 
-func RandomInt(min, max int) int {
-	return seededRand.Intn(max - min + 1) + min
+func RandomInt(min, max int) int64 {
+	return int64(seededRand.Intn(max - min + 1) + min)
 }
 
 func RandomString(n int) string {
