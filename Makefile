@@ -8,8 +8,14 @@ postgres:
 migrateup:
 	migrate -path db/migrations -database "postgresql://postgres:postgres@localhost:5432/go_project_2?sslmode=disable" -verbose up
 
+migrateup1:
+	migrate -path db/migrations -database "postgresql://postgres:postgres@localhost:5432/go_project_2?sslmode=disable" -verbose up 1
+
 migratedown:
 	migrate -path db/migrations -database "postgresql://postgres:postgres@localhost:5432/go_project_2?sslmode=disable" -verbose down
+
+migratedown1:
+	migrate -path db/migrations -database "postgresql://postgres:postgres@localhost:5432/go_project_2?sslmode=disable" -verbose down 1
 
 dropdb:
 	docker exec -it postgres17 dropdb go_project_2
@@ -26,4 +32,4 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/redmonkez12/go-project-2/db/sqlc Store
 
-.PHONY: postgres dropdb migrateup migratedown sqlc test server mock
+.PHONY: postgres dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server mock
