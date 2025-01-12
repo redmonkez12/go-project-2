@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  deploy:
     permissions:
       id_token: write
       contents: read
